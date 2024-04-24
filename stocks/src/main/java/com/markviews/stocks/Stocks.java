@@ -27,6 +27,8 @@ public final class Stocks extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        this.getCommand("stocks").setExecutor(new CommandStocks());
+
         world = Bukkit.getWorld("world");
         ListFiles();
         //CreatePlots();
