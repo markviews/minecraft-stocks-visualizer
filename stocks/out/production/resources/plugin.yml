@@ -1,0 +1,4 @@
+name: stocks
+version: '${version}'
+main: com.markviews.stocks.Stocks
+api-version: '1.20'
