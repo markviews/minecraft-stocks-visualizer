@@ -6,12 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Bisected;
-import org.bukkit.block.data.type.Door;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -38,6 +33,7 @@ public class CommandStocks implements CommandExecutor {
     private double lowest = -1;
     private double highest = -1;
     private int day = 1;
+    private int count = -1;
 
     private static BukkitTask currentTask;
 
@@ -57,6 +53,7 @@ public class CommandStocks implements CommandExecutor {
         day = 1;
         lowest = -1;
         highest = -1;
+        count = -1;
         stocks.clear();
 
         if (args.length == 0) {
@@ -85,13 +82,13 @@ public class CommandStocks implements CommandExecutor {
                 DisplayIndex(day);
 
                 day++;
-                if (day == 101) {
+                if (day == count) {
                     sender.sendMessage("Done");
                     cancel();
                 }
             }
         };
-        currentTask = runnable.runTaskTimer(Stocks.instance, 0, 20);
+        currentTask = runnable.runTaskTimer(Stocks.instance, 0, 10);
 
         return true;
     }
@@ -207,6 +204,7 @@ public class CommandStocks implements CommandExecutor {
             // update global min / max
             if (lowest == -1 || low < lowest) lowest = low;
             if (highest == -1 || high > highest) highest = high;
+            if (count == -1 || prices.size() < count) count = prices.size();
 
             Location loc = new Location(world, 49, -61, 125);
             loc.setX(loc.getX() + stocks.size() * 11);
